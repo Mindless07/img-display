@@ -2,8 +2,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { configureDb } from "@/utils/dbConfig";
 
 const inter = Inter({ subsets: ["latin"] });
+configureDb();
 
 const queryClient = new QueryClient();
 

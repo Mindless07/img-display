@@ -30,7 +30,6 @@ export default function ImageListing() {
 
   const onScroll = (e) => {
     const { scrollTop, offsetHeight, scrollHeight } = e.currentTarget;
-    console.log(e);
 
     if (Math.round(scrollTop + offsetHeight) !== scrollHeight) {
       return;
