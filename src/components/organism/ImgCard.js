@@ -1,9 +1,13 @@
 "use client";
 import Image from "next/image";
 
-const ImgCard = ({ imageInfo, isLiked }) => {
+const ImgCard = ({ imageInfo, isLiked, onClick }) => {
   return (
-    <div className="flex flex-col" key={imageInfo?.id}>
+    <div
+      onClick={onClick}
+      id={imageInfo?.id}
+      className="cursor-pointer flex flex-col"
+    >
       <div className="flex h-80 justify-center content-center align-middle">
         <Image
           src={imageInfo?.links?.download}
