@@ -30,15 +30,8 @@ export const getCurrentUser = async () => {
   const data = await db.get(currentUser);
   return data;
 };
-export const getLikedImages = async (user) => {
-  const data = await db.get(`${user}likes`);
-  return data;
-};
 
-export const getLikedImagesByCurrentUser = async () =>
-  await getLikedImages(currentUser);
-
-export const likedImages = async () => {
+export const getLikedImages = async () => {
   const user = await getUser(currentUser);
   return user.likes;
 };
@@ -47,4 +40,5 @@ export const likeImage = async (imageId) => {
   const user = await getCurrentUser();
   user.likes.push(imageId);
   await db.put(currentUser, user);
+  return user.likes;
 };
