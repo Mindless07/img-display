@@ -36,7 +36,10 @@ export default function Home() {
             placeholder="Email"
           />
           <Input
-            inputProps={{ onChange: (e) => setPassword(e.target.value) }}
+            inputProps={{
+              onChange: (e) => setPassword(e.target.value),
+              type: "password",
+            }}
             value={password}
             label="Password"
             placeholder="Password"
