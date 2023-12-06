@@ -5,12 +5,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useAuth } from "@/utils/auth";
 import { apiClient } from "@/utils/network";
+import { useLikesData } from "./useLikesData";
+
 import ImgCard from "@/components/organism/ImgCard";
 
 export default function ImageListing() {
-  const { user } = useAuth();
   const router = useRouter();
-  const isLiked = true;
+
+  const { user } = useAuth();
+  const { likes, likeImageById } = useLikesData();
+
   const [imgFeed, setImgFeed] = useState([]);
   const { data, isFetching, isSuccess, isFetchingNextPage, fetchNextPage } =
     useInfiniteQuery({
@@ -38,6 +42,10 @@ export default function ImageListing() {
     if (!isFetchingNextPage) fetchNextPage();
   };
 
+  const handleImageClick = async (e) => {
+    await likeImageById(e.currentTarget.id);
+  };
+
   useEffect(() => {
     if (
       data &&
@@ -55,8 +63,13 @@ export default function ImageListing() {
       <div className="p-12 mb-2 h-full overflow-y-scroll" onScroll={onScroll}>
         <div className="flex flex-wrap gap-2">
           {imgFeed.length > 0 &&
-            imgFeed.map((image) => (
-              <ImgCard key={image?.id} imageInfo={image} isLiked={isLiked} />
+            imgFeed.map((image, index) => (
+              <ImgCard
+                onClick={handleImageClick}
+                key={image?.id + index}
+                imageInfo={image}
+                isLiked={likes.includes(image?.id)}
+              />
             ))}
           {isFetchingNextPage && (
             <div className="text-xl"> fetching next page</div>
