@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { login, useAuth } from "@/utils/auth";
+import { useAuth } from "@/utils/useAuth";
 
 import Input from "@/components/atomic/Input";
 import Button from "@/components/atomic/Button";
@@ -12,19 +12,20 @@ import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const loginClickHandle = async () => {
     try {
       login(username, password);
-      router.push("/display");
     } catch (e) {
       setLoginError(e.message);
     }
   };
-  if (user) return router.push("/display");
+
+  if (user) router.push("/display");
+
   return (
     <main className="flex justify-center bg-gray-100 items-center h-full">
       <div className="flex  bg-white justify-between w-5/6 h-5/6 p-10">

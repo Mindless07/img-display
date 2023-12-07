@@ -1,12 +1,14 @@
 import { Level } from "level";
+import { currentUserKey } from "./constantes";
 
 let db;
 
-const currentUser = localStorage.getItem("currentUser") || "test";
-
 export const configureDb = async () => {
-  db = new Level("img-display", { valueEncoding: "json" });
-  const mUser1 = db.get("muser1");
+  db = new Level("imgdisplay", {
+    valueEncoding: "json",
+    createIfMissing: true,
+  });
+  const mUser1 = await db.get("muser1");
   if (!mUser1) {
     await db.put("muser1", {
       user: "muser1",
@@ -27,18 +29,18 @@ export const getUser = async (user) => {
 };
 
 export const getCurrentUser = async () => {
-  const data = await db.get(currentUser);
+  const data = await db.get(currentUserKey);
   return data;
 };
 
 export const getLikedImages = async () => {
-  const user = await getUser(currentUser);
-  return user.likes;
+  const user = await getUser(currentUserKey);
+  return user?.likes;
 };
 
 export const likeImage = async (imageId) => {
   const user = await getCurrentUser();
   user.likes.push(imageId);
-  await db.put(currentUser, user);
+  await db.put(currentUserKey, user);
   return user.likes;
 };

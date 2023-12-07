@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { useAuth } from "@/utils/auth";
+import { useAuth } from "@/utils/useAuth";
 import { apiClient } from "@/utils/network";
 import { useLikesData } from "./useLikesData";
 
@@ -57,6 +57,7 @@ export default function ImageListing() {
   }, [isFetchingNextPage, isFetching, data]);
 
   if (!user) router.push("/");
+
   if (isFetching) return <div>isfetching</div>;
   if (isSuccess)
     return (
